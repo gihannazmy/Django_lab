@@ -1,0 +1,18 @@
+{% extends "./track.html" %} {% block title %}
+<div>
+    <h1>create track</h1>
+</div>
+{% endblock %} {% block content %}
+
+<form action="">
+    <div>
+        <label for="name">Track:</label>
+        <input type="text" id="name" name="name" required />
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required />
+    </div>
+    <button type="submit"> Submit </button>
+</form>
+{% endblock %}

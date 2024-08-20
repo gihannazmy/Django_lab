@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accounts</title>
+</head>
+<body>
+
+<header>
+    <div>
+        <ul>
+            <li>
+                <a href="{% url 'account_list' %}">Account List</a>
+            </li>
+            <li>
+                <a href="{% url 'create_account'%}">Create Account</a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<main>
+       {% block title %} {% endblock %} {% block content %} {% endblock %}
+</main>
+</body>
+</html>

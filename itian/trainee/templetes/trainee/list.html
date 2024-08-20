@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trainees</title>
+</head>
+<body>
+<h1>Trainees list</h1>
+<table border="1px solid" width="100%">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Actions</th>
+    </tr>
+    {%for trainee in trainees%}
+    <tr>
+      <td>ID:{{trainee.id}}</td>
+        <td>Name:{{trainee.name}}</td>
+        <td>
+            <a href="http://127.0.0.1.8000/trainees/Updte">Update</a>
+            <a href="{%%}">Delete</a>
+            <a href="">Show Details</a>
+
+        </td>
+    </tr>
+</table>
+
+{%endfor%}
+</body>
+</html>

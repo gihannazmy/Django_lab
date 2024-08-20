@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Track</title>
+    </head>
+    <body>
+        <header>
+          <div>
+            <ul>
+              <li>
+                <a href="{% url 'track_list' %}">List</a>
+              </li>
+              <li>
+                <a> href="{% url 'create_track' %}Create Track</a>
+              </li>
+            </ul>
+          </div>
+
+          <main>
+              {% block title %} {% endblock %} {% block content %} {% endblock %}
+          </main>
+        </header>
+    </body>
+</html>

@@ -1,0 +1,39 @@
+{% extends './account.html' %} {% block title %}
+
+<div>
+    <h1>Account List</h1>
+</div>
+
+{% endblock %} {% block content %}
+<div>
+    <a href="{% url 'create_account' %}">Create</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {%for account in accounts%}
+        <tr>
+            <td>{{account.id}}</td>
+            <td>{{account.email}}</td>
+            <td>{{account.password}}</td>
+            <td>
+                <a href="{%url 'update_account' account.id%}">Update Account</a>
+                <a href="{%url 'delete_account' account.id%}">Delete Account</a>
+                <a href="{%url 'account_info' account.id%}">Account Info</a>
+            </td>
+        </tr>
+        {%endfor%}
+    </tbody>
+</table>
+
+{% endblock %}
+</html>
