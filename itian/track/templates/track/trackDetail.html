@@ -1,7 +1,15 @@
-{% extends './track.html' %} {% block title %}
-<div>
-    <h1>Track Detail</h1>
-</div>
-{% endblock %} {% block content %}
-<div>id: {{ id }}</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Track Details</title>
+</head>
+<body>
+    <h1>Track Details</h1>
+    <p><strong>ID:</strong> {{ track.id }}</p>
+    <p><strong>Name:</strong> {{ track.name }}</p>
+    <a href="{% url 'track_list' %}">Back to List</a>
+    <a href="{% url 'track_update' track.id %}">Update</a>
+    <a href="{% url 'track_delete' track.id %}">Delete</a>
+</body>
+</html>

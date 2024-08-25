@@ -1,8 +1,16 @@
-{% extends './trainees.html' %} {% block title %}
-
-<div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Trainee</title>
+</head>
+<body>
     <h1>Delete Trainee</h1>
-</div>
-{% endblock %} {% block content %}
-<div>id: {{ id }}</div>
-{% endblock %}
+    <p>Are you sure you want to delete "{{ trainee.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'trainee_list' %}">Cancel</a>
+    </form>
+</body>
+</html>

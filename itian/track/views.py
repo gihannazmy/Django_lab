@@ -1,41 +1,60 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+
+# Simulate a database with a global list of tracks
+tracks = [
+    {'id': 1, 'name': 'Track 1'},
+    {'id': 2, 'name': 'Track 2'},
+]
+
+# Custom function to simulate get_object_or_404 for a list
+def get_track_or_404(track_list, id):
+    for track in track_list:
+        if track['id'] == id:
+            return track
+    return None
+
+def track_list(request):
+    context = {'tracks': tracks}
+    return render(request, 'track/list.html', context)
+
+def track_create(request):
+    if request.method == 'POST':
+        new_id = len(tracks) + 1
+        new_name = request.POST.get('name')
+
+        new_track = {'id': new_id, 'name': new_name}
+
+        tracks.append(new_track)
+
+        return redirect('track_list')
+    return render(request, 'track/create_form.html')
+
+def track_update(request, id):
+    track = get_track_or_404(tracks, id)
+    if not track:
+        return HttpResponse("Track not found", status=404)
+
+    if request.method == 'POST':
+        track['name'] = request.POST.get('name')
+        return redirect('track_list')
+    return render(request, 'track/update_form.html', {'track': track})
+
+def track_delete(request, id):
+    track = get_track_or_404(tracks, id)
+    if not track:
+        return HttpResponse("Track not found", status=404)
+
+    if request.method == 'POST':
+        tracks.remove(track)
+        return redirect('track_list')
+    return render(request, 'track/delete_confirm.html', {'track': track})
 from django.http import HttpResponse
 
+def track_details(request, id):
+    track = get_track_or_404(tracks, id)
+    if not track:
+        return HttpResponse("Track not found", status=404)
 
-# Create your views here.
-def track_list(request):
-    tracks = [
-        {"id": 1, "name": "ClientSide", "description": "Html,JS, Css"},
-        {"id": 2, "name": "Admin01", "description": "Ubuntu"},
-        {"id": 3, "name": "BackEnd", "description": "Python, Django"},
-    ]
-    context = {}
-    context["tracks"] = tracks
-    return render(request, "track/trackList.html", context)
-    # return HttpResponse("<h2>track List</h2>")
+    return render(request, 'track/details.html', {'track': track})
 
 
-def create_track(request):
-    # return HttpResponse("<h2>Create Track</h2>")
-    return render(request, "track/createTrack.html")
-
-
-def update_track(request, id):
-    # return HttpResponse("<h2>Update Track</h2>")
-    context = {}
-    context = {"id": id}
-    return render(request, "track/updateTrack.html", context)
-
-
-def delete_track(request, id):
-    # return HttpResponse("<h2>Delete Track</h2>")
-    context = {}
-    context = {"id": id}
-    return render(request, "track/deleteTrack.html", context)
-
-
-def track_detail(request, id):
-    # return HttpResponse("<h2>Track Details: {id}</h2>")
-    context = {}
-    context = {"id": id}
-    return render(request, "track/trackDetail.html", context)

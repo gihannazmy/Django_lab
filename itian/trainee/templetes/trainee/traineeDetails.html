@@ -1,8 +1,16 @@
-{% extends './trainees.html' %} {% block title %}
-
-<div>
-    <h1>Delete Trainee</h1>
-</div>
-{% endblock %} {% block content %}
-<div>id: {{ id }}</div>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trainee Details</title>
+</head>
+<body>
+    <h1>Trainee Details</h1>
+    <p><strong>ID:</strong> {{ trainee.id }}</p>
+    <p><strong>Name:</strong> {{ trainee.name }}</p>
+    <p><strong>Email:</strong> {{ trainee.email }}</p>
+    <a href="{% url 'trainee_list' %}">Back to List</a>
+    <a href="{% url 'trainee_update' trainee.id %}">Update</a>
+    <a href="{% url 'trainee_delete' trainee.id %}">Delete</a>
+</body>
+</html>

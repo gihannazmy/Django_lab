@@ -1,8 +1,20 @@
-{% extends './account.html' %} {% block title %}
-
-<div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Account</title>
+</head>
+<body>
     <h1>Delete Account</h1>
-</div>
-{% endblock %} {% block content %}
-<div>id: {{ id }}</div>
-{% endblock %}
+    <ul>
+        <li>ID: {{ account.id }}</li>
+        <li>Email: {{ account.email }}</li>
+    </ul>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'accounts_list' %}">Cancel</a>
+    </form>
+</body>
+</html>

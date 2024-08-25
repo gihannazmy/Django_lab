@@ -1,40 +1,66 @@
-from lib2to3.fixes.fix_input import context
+from django.shortcuts import render, redirect
 
-from django.http import HttpResponse
+# Simulate a database with a global list of accounts
+accounts = [
+    {'id': 1, 'email': 'gihanatef@gmail.com', 'password': '224455'},
+    {'id': 2, 'email': 'safa.abduallah2001@hotmail.com', 'password': '332255'},
+]
 
-from django.shortcuts import render
 
-# Create your views here.
+# Custom function to simulate get_object_or_404 for a list
+def get_account_or_404(account_list, id):
+    for account in account_list:
+        if account['id'] == id:
+            return account
+    return None
+
+
 def account_list(request):
-    #return HttpResponse('<H2>List of Accounts')
-    account= [
-        {'id':1 , 'email':'safa.suli.2@gmail.com', 'password':'112233'},
-        {'id': 2, 'email': 'safa.abduallah2001@hotmail.com', 'password': '332211'},
+    context = {'accounts': accounts}
+    return render(request, 'account/List.html', context)
 
-    ]
 
-    context={}
-    context['account']=account
-    return render(request,'account/accountList.html',context)
+def account_create(request):
+    if request.method == 'POST':
+        new_id = len(accounts) + 1
+        new_email = request.POST.get('email')
+        new_password = request.POST.get('password')
 
-def create_account(request):
-    #return HttpResponse('<H2>Create Account')
-    return render(request,'account/createAccount.html')
+        new_account = {'id': new_id, 'email': new_email, 'password': new_password}
 
-def update_account(request, id):
-    #return HttpResponse('<H2>Update Account')
-    context = {}
-    context = {'id': id}
-    return render(request,'account/updateAccount.html', context)
+        accounts.append(new_account)
 
-def delete_account(request, id):
-    #return HttpResponse('<H2>Delete Account')
-    context = {}
-    context = {'id': id}
-    return render(request,'account/deleteAccount.html', context)
+        return redirect('accounts_list')
+    return render(request, 'account/create_form.html')
+
+
+def account_update(request, id):
+    account = get_account_or_404(accounts, id)
+    if not account:
+        return HttpResponse("Account not found", status=404)
+
+    if request.method == 'POST':
+        account['email'] = request.POST.get('email')
+        account['password'] = request.POST.get('password')
+        return redirect('accounts_list')
+    return render(request, 'account/update_form.html', {'account': account})
+
+
+def account_delete(request, id):
+    account = get_account_or_404(accounts, id)
+    if not account:
+        return HttpResponse("Account not found", status=404)
+
+    if request.method == 'POST':
+        accounts.remove(account)
+        return redirect('accounts_list')
+    return render(request, 'account/delete_confirm.html', {'account': account})
+
 
 def account_info(request, id):
-    #return HttpResponse('<H2>Account Info: {id}</H2>')
-    context = {}
-    context = {'id': id}
-    return render(request,'account/accountInfo.html', context)
+    account = get_account_or_404(accounts, id)
+    if not account:
+        return HttpResponse("Account not found", status=404)
+
+    context = {'account': account}
+    return render(request, 'account/accountInfo.html', context)

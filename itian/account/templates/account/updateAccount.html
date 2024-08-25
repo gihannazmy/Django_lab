@@ -1,19 +1,22 @@
-{% extends './account.html' %} {% block title %}
-<div>
-    <h1>Account Update</h1>
-</div>
-{% endblock %} {% block content %}
-<form action="">
-    <div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Account</title>
+</head>
+<body>
+    <h1>Update Account</h1>
+
+    <form method="post">
+        {% csrf_token %}
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
-    </div>
-    <div>
+        <input type="email" id="email" name="email" value="{{ account.email }}" required><br><br>
+
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required />
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
-</form>
-{% endblock %}
+        <input type="password" id="password" name="password" value="{{ account.password }}" required><br><br>
+
+        <button type="submit">Save Changes</button>
+        <a href="{% url 'accounts_list' %}">Cancel</a>
+    </form>
+</body>
+</html>

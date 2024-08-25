@@ -1,59 +1,34 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Trainee
 
+def trainee_list(request):
+    trainees = Trainee.objects.all()
+    return render(request, 'trainee/list.html', {'trainees': trainees})
 
-# Create your views here.
-def trainees_list(request):
-    trainees = [
-        {
-            "id": 1,
-            "name": "Safa",
-            "age": 22,
-            "email": "safa.abduallah2001@hotmail.com",
-            "department": "Backend",
-        },
-        {
-            "id": 2,
-            "name": "Ahmed",
-            "age": 24,
-            "email": "ahmed.suli@gmail.com",
-            "department": "Admin01",
-        },
-        {
-            "id": 3,
-            "name": "Helana",
-            "age": 25,
-            "email": "helana.nabil@gmail.com",
-            "department": "ClientSide",
-        },
-    ]
-    context = {}
-    context["trainees"] = trainees
-    return render(request, "trainee/tranieesList.html", context)
-    # return HttpResponse("<h2>Trainees List</h2>")
+def trainee_create(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        Trainee.objects.create(name=name, email=email)
+        return redirect('trainee_list')
+    return render(request, 'trainee/create_form.html')
 
+def trainee_update(request, id):
+    trainee = get_object_or_404(Trainee, id=id)
+    if request.method == 'POST':
+        trainee.name = request.POST.get('name')
+        trainee.email = request.POST.get('email')
+        trainee.save()
+        return redirect('trainee_list')
+    return render(request, 'trainee/update_form.html', {'trainee': trainee})
 
-def create_trainee(request):
-    # return HttpResponse("<h1>Create Trainee</h1>")
-    return render(request, "trainee/createTrainee.html")
+def trainee_delete(request, id):
+    trainee = get_object_or_404(Trainee, id=id)
+    if request.method == 'POST':
+        trainee.delete()
+        return redirect('trainee_list')
+    return render(request, 'trainee/delete_confirm.html', {'trainee': trainee})
 
-
-def update_trainee(request, id):
-    # return HttpResponse("<h2>Update Trainee</h2>")
-    context = {}
-    context = {"id": id}
-    return render(request, "trainee/updateTrainee.html", context)
-
-
-def delete_trainee(request, id):
-    # return HttpResponse("<h2>Delete Trainee</h2>")
-    context = {}
-    context = {"id": id}
-    return render(request, "trainee/deleteTrainee.html", context)
-
-
-def trainees_details(request, id):
-    # return HttpResponse(f"<h2>Trainees Details: {id}</h2>")
-    context = {}
-    context = {"id": id}
-    return render(request, "trainee/traineeDetails.html", context)
+def trainee_details(request, id):
+    trainee = get_object_or_404(Trainee, id=id)
+    return render(request, 'trainee/details.html', {'trainee': trainee})

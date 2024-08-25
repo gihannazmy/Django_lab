@@ -1,18 +1,16 @@
-{% extends "./track.html" %} {% block title %}
-<div>
-    <h1>create track</h1>
-</div>
-{% endblock %} {% block content %}
-
-<form action="">
-    <div>
-        <label for="name">Track:</label>
-        <input type="text" id="name" name="name" required />
-    </div>
-    <div>
-        <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required />
-    </div>
-    <button type="submit">Submit</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Track</title>
+</head>
+<body>
+    <h1>Delete Track</h1>
+    <p>Are you sure you want to delete the track "{{ track.name }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Yes, Delete</button>
+        <a href="{% url 'track_list' %}">Cancel</a>
+    </form>
+</body>
+</html>

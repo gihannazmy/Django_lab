@@ -10,12 +10,14 @@
         <tr>
             <th>ID</th>
             <th>Email</th>
+            <th>Password</th>
             <th>Actions</th>
         </tr>
         {% for account in accounts %}
         <tr>
             <td>{{ account.id }}</td>
             <td>{{ account.email }}</td>
+            <td>{{ account.password }}</td>
             <td>
                 <a href="{% url 'account_update' account.id %}">Update</a>
                 <a href="{% url 'account_delete' account.id %}">Delete</a>
